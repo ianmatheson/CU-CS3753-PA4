@@ -13,7 +13,7 @@
  *      implmentation.
  */
 
-#include <stdio.h> 
+#include <stdio.h>  
 #include <stdlib.h>
 
 #include "simulator.h"
@@ -31,6 +31,8 @@ void pageit(Pentry q[MAXPROCESSES]) {
     /* Local vars */
     int proctmp;
     int pagetmp;
+    int proc;
+    int page;
 
     /* initialize static vars on first run */
     if(!initialized){
@@ -41,8 +43,30 @@ void pageit(Pentry q[MAXPROCESSES]) {
 	}
 	initialized = 1;
     }
+
+    for(proc=0; proc < MAXPROCESSES; proc++){
+        //Updating timestamps table with first column as 1
+        page = (q[proc].pc/PAGESIZE);
+        timestamps[proc][page] = tick;
+        
+        /* Is process active? */
+        if(!q[proc].active){
+            //If not active swap out pages 
+            for(page=0; page < MAXPROCPAGES; page++){
+                pageout(proc, page);
+            }
+        }
+    }
+
+    for(int i = 0; i < MAXPROCESSES; i++){
+        for(int j = 0; j < MAXPROCPAGES; j++){
+            printf("%d ", timestamps[i][j]);
+        }
+        printf("\n");
+    }
     
     /* TODO: Implement LRU Paging */
+
     fprintf(stderr, "pager-lru not yet implemented. Exiting...\n");
     exit(EXIT_FAILURE);
 

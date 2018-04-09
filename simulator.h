@@ -1,5 +1,5 @@
 /*
- * File: simulator.h
+ * File: simulator.h 
  * 
  * Original Author: Dr. Alva Couch
  *                  http://www.cs.tufts.edu/~couch/
